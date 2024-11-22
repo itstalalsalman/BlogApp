@@ -48,7 +48,7 @@ The application allows users to:
 ### 1. **Database Creation**
 To set up the database, follow these steps:
 ```
-CREATE DATABASE Blogs;
+CREATE DATABASE BlogsDB;
 GO
 
 USE Blogs;
