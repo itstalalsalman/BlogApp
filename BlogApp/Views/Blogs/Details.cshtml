@@ -1,0 +1,86 @@
+﻿@model BlogModel
+
+@* Simplified Blog Details view with white text for a clean design *@
+
+@{
+    var containerDivClass = "container bg-dark text-light rounded p-4 shadow-lg";
+}
+@{
+    ViewData["Title"] = "Blog Details";
+}
+
+<div class="@containerDivClass">
+    <h1 class="text-center">@ViewData["Title"]</h1>
+    <hr class="border-light" />
+</div>
+
+@if (Model is not null)
+{
+    <div class="@containerDivClass">
+        @if (TempData["Message"] is not null)
+        {
+            <p class="fw-bold text-white">
+                @TempData["Message"]
+            </p>
+        }
+        <div class="row mb-4">
+            <div class="col-2 fw-bold">
+                @Html.DisplayNameFor(model => model.Title)
+            </div>
+            <div class="col-10">
+                @Html.DisplayFor(model => model.Title)
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-2 fw-bold">
+                @Html.DisplayNameFor(model => model.Content)
+            </div>
+            <div class="col-10">
+                @Html.DisplayFor(model => model.Content)
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-2 fw-bold">
+                @Html.DisplayNameFor(model => model.Rating)
+            </div>
+            <div class="col-10">
+                @Html.DisplayFor(model => model.Rating)
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-2 fw-bold">
+                @Html.DisplayNameFor(model => model.PublishDate)
+            </div>
+            <div class="col-10">
+                @Html.DisplayFor(model => model.PublishDate)
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-2 fw-bold">
+                @Html.DisplayNameFor(model => model.UserName)
+            </div>
+            <div class="col-10">
+                @Html.DisplayFor(model => model.UserName)
+            </div>
+        </div>
+
+        @* Placeholder for Many-to-Many relationships, if applicable *@
+        @*
+            <div class="row mb-4">
+                <div class="col-2 fw-bold">
+                    @Html.DisplayNameFor(model => model.ManyToManyRecords)
+                </div>
+                <div class="col-10">
+                    @Html.Raw(Model.ManyToManyRecords)
+                </div>
+            </div>
+        *@
+
+        <hr class="border-light" />
+        <div class="d-flex justify-content-start gap-3">
+            <a asp-action="Edit" asp-route-id="@Model.Record.Id" class="btn btn-outline-primary rounded-pill px-4">Edit</a>
+            <a asp-action="Delete" asp-route-id="@Model.Record.Id" class="btn btn-outline-danger rounded-pill px-4">Delete</a>
+            <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">Back to List</a>
+        </div>
+    </div>
+}
