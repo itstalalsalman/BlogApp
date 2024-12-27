@@ -38,16 +38,24 @@ public partial class Db : DbContext
 
         modelBuilder.Entity<BlogTag>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__BlogTag__3214EC0778865605");
+            // Composite primary key for BlogTag, using BlogId and TagId as the key
+            entity.HasKey(e => new { e.BlogId, e.TagId }).HasName("PK_BlogTag");
 
-            entity.HasOne(d => d.Blog).WithMany(p => p.BlogTags)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__BlogTag__BlogId__4222D4EF");
+            // Defining foreign key relationship with Blog entity
+            entity.HasOne(d => d.Blog)
+                .WithMany(p => p.BlogTags)
+                .HasForeignKey(d => d.BlogId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK_BlogTag_BlogId");
 
-            entity.HasOne(d => d.Tag).WithMany(p => p.BlogTags)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__BlogTag__TagId__4316F928");
+            // Defining foreign key relationship with Tag entity
+            entity.HasOne(d => d.Tag)
+                .WithMany(p => p.BlogTags)
+                .HasForeignKey(d => d.TagId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK_BlogTag_TagId");
         });
+
 
         modelBuilder.Entity<Role>(entity =>
         {

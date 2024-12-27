@@ -1,5 +1,8 @@
 using BLL.DAL;
+using BLL.Models;
 using BLL.Services;
+using BLL.Services.Bases;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,10 +11,26 @@ builder.Services.AddControllersWithViews();
 
 var connectionString = builder.Configuration.GetConnectionString("Db");
 builder.Services.AddDbContext<Db>(options => options.UseSqlServer(connectionString));
-builder.Services.AddScoped<IBlogService, BlogService>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<IService<Blog, BlogModel>, BlogService>();
+builder.Services.AddScoped<IService<User, UserModel>, UserService>();
+builder.Services.AddScoped<ITagService, TagService>();
 
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSingleton<HttpServiceBase, HttpService>();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+	.AddCookie(options =>
+	{
+		options.LoginPath = "/Users/Login";
+		options.AccessDeniedPath = "/Users/Login";
+		options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+		options.SlidingExpiration = true;
+	});
+
+builder.Services.AddSession(options =>
+{
+	options.IdleTimeout = TimeSpan.FromMinutes(30); // default: 20 minutes
+});
 
 var app = builder.Build();
 
@@ -28,7 +47,13 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// Authentication:
+app.UseAuthentication();
+
 app.UseAuthorization();
+
+// Session:
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

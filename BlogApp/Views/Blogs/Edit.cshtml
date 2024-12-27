@@ -56,6 +56,14 @@
                 </div>
             </div>
 
+            <div class="row mb-4">
+                <label asp-for="TagNames" class="col-3 col-form-label text-white fw-bold"></label>
+                <div class="col-9">
+                    <input asp-for="TagNames" class="form-control bg-secondary text-light border-0 rounded-pill" />
+                    <span asp-validation-for="TagNames" class="text-danger"></span>
+                </div>
+            </div>
+
             <div class="row mb-3">
                 <label asp-for="PublishDate" class="col-3 col-form-label fw-bold">Publish Date</label>
                 <div class="col-9">
@@ -64,15 +72,26 @@
                 </div>
             </div>
 
-            <div class="row mb-3">
-                <label asp-for="User" class="col-3 col-form-label fw-bold">User</label>
-                <div class="col-9">
-                    <select asp-for="Record.UserId" class="form-select bg-dark text-light border-secondary" asp-items="ViewBag.UserId">
-                        <option value="">-- Select User --</option>
-                    </select>
-                    <span asp-validation-for="Record.UserId" class="text-danger"></span>
-                </div>
-            </div>
+            @if (User.Identity.IsAuthenticated)
+            {
+                @if (User.IsInRole("Admin"))
+                {
+                    <div class="row mb-4">
+                        <label asp-for="User" class="col-3 col-form-label text-white fw-bold"></label>
+                        <div class="col-9">
+                            <select asp-for="Record.UserId" class="form-select bg-secondary text-light border-0 rounded-pill"
+                                    asp-items="ViewBag.UserId">
+                                <option value="">-- Select --</option>
+                            </select>
+                            <span asp-validation-for="Record.UserId" class="text-danger"></span>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <input type="hidden" asp-for="Record.UserId" value="@User.FindFirst("Id")?.Value" />
+                }
+            }
 
             @* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. *@
             @*
@@ -86,7 +105,7 @@
             *@
 
             <hr class="text-light" />
-            <div class="text-center mb-5">
+            <div class="text-center mb-lg-5">
                 <button type="submit" class="btn btn-success" style="width: 100px;">Save</button>
                 &nbsp;&nbsp;
                 <button type="reset" class="btn btn-outline-secondary" style="width: 100px;">Reset</button>

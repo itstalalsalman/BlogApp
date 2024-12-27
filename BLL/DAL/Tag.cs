@@ -16,6 +16,7 @@ public partial class Tag
 
     [Required]
     [StringLength(100)]
+    [Unicode(false)]
     public string Name { get; set; }
 
     [InverseProperty("Tag")]

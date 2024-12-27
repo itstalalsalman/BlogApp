@@ -20,12 +20,14 @@ namespace BLL.Models
         public string Password => Record.Password;
         
         [DisplayName("Is Active")]
-        public bool IsActive => Record.IsActive;
+        public string IsActive => Record.IsActive ? "Active" : "Not Active";
 
-        [DisplayName("Role ID")]
+		[DisplayName("Role ID")]
         public int? RoleId => Record.RoleId;
 
-        [DisplayName("Role")]
+		public string Role => Record.Role?.Name;
+
+		[DisplayName("Role")]
         public string RoleName { get; set; }
 
         [DisplayName("Blogs")]

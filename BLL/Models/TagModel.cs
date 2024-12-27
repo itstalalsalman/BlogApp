@@ -1,5 +1,6 @@
 ﻿#nullable disable
 using BLL.DAL;
+using System.ComponentModel;
 
 namespace BLL.Models
 {
@@ -11,5 +12,6 @@ namespace BLL.Models
 
         public string Name => Record.Name;
 
-    }
+
+	}
 }

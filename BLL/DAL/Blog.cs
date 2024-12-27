@@ -15,7 +15,7 @@ public partial class Blog
     public int Id { get; set; }
 
     [Required]
-    [StringLength(255)]
+    [StringLength(500)]
     [Column(TypeName = "text")]
     public string Title { get; set; }
 

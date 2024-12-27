@@ -11,9 +11,6 @@ namespace BLL.DAL;
 [Table("BlogTag")]
 public partial class BlogTag
 {
-    [Key]
-    public int Id { get; set; }
-
     public int BlogId { get; set; }
 
     public int TagId { get; set; }

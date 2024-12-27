@@ -5,15 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BLL.Services
 {
-    public interface IBlogService
-    {
-        Service Create(Blog blog);
-        Service Update(Blog blog);
-        Service Delete(int id);
-        IQueryable<BlogModel> Query();
-    }
 
-    public class BlogService : Service, IBlogService
+    public class BlogService : Service, IService<Blog, BlogModel>
     {
         public BlogService(Db db) : base(db)
         {
@@ -43,7 +36,7 @@ namespace BLL.Services
 
         public Service Update(Blog blog)
         {
-            if (_db.Blogs.Any(b => b.Id != blog.Id && b.Title.ToUpper() == blog.Title.ToUpper().Trim()))
+            if (_db.Blogs.ToList().Any(b => b.Id != blog.Id && b.Title.Equals(blog.Title, StringComparison.OrdinalIgnoreCase)))
                 return Error("Blog with the same title already exists!");
             var entity = _db.Blogs.FirstOrDefault(b => b.Id == blog.Id);
             if (entity is null)

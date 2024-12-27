@@ -1,29 +1,16 @@
-﻿#nullable disable
-using BLL.DAL;
-
+﻿using BLL.DAL;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace BLL.Models
 {
     public class BlogTagModel
     {
-        public BlogTag Record { get; set; }
-
-        public int Id => Record.Id;
-
-        public int BlogId => Record.BlogId;
-
-        public int TagId => Record.TagId;
-
-        // Navigation Properties
-        public BlogModel Blog { get; set; }
-        public TagModel Tag { get; set; }
-
-        // Constructor for initialization
-        public BlogTagModel()
-        {
-            Blog = new BlogModel();
-            Tag = new TagModel();
-        }
-
+        public IEnumerable<Blog> Blogs { get; set; }
+        public IEnumerable<Tag> Tags { get; set; }
+        public int[] SelectedTags { get; set; }
     }
 }

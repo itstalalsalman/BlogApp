@@ -1,5 +1,6 @@
 ﻿#nullable disable
 using BLL.DAL;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace BLL.Models
@@ -26,23 +27,22 @@ namespace BLL.Models
         [DisplayName("User")]
         public string UserName => Record.User?.UserName;
 
+        public int UserId => Record.UserId;
+
         public UserModel User { get; set; }
 
         //Navigation 
-        public ICollection<string> Tags
-        {
-            get
-            {
-                var tags = new List<string>();
-                if (Record.BlogTags != null)
-                {
-                    foreach (var blogTag in Record.BlogTags)
-                    {
-                        tags.Add(blogTag.Tag?.Name);
-                    }
-                }
-                return tags;
-            }
-        }
+        [DisplayName("Tags")]
+        public ICollection<string> Tags { get; set; } = new List<String>();
+
+        [DisplayName("Tags (Comma Separated)")]
+		public string TagNames { get; set; }
+
+		[DisplayName("Tag IDs")]
+		public List<int> TagIds { get; set; }
+
+        public virtual ICollection<BlogTag> BlogTags { get; set; }
     }
 }
+
+

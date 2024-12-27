@@ -3,6 +3,8 @@
 @{
     ViewData["Title"] = "Blog List";
     var containerDivClass = "container mb-5";
+    var allTags = ViewBag.Tags as List<string>;
+    var selectedTags = ViewBag.SelectedTags as string[];
 }
 
 <div class="@containerDivClass">
@@ -21,6 +23,34 @@
                 <a asp-action="Create" class="btn btn-primary">Create</a>
             </div>
         </div>
+        <!-- All Tags Section -->
+        <div class="row mb-3">
+            <div class="col-12">
+                <h5 class="text-light">All Tags:</h5>
+                <div>
+                    @foreach (var tag in allTags)
+                    {
+                        <a asp-action="Index" asp-route-selectedTags="@string.Join(",", selectedTags?.Append(tag) ?? new[] { tag })" class="badge bg-secondary text-light m-1">@tag</a>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Selected Tags Section -->
+        @if (selectedTags != null && selectedTags.Length > 0)
+        {
+            <div class="row mb-3">
+                <div class="col-12">
+                    <h5 class="text-light">Selected Tags:</h5>
+                    <div>
+                        @foreach (var tag in selectedTags)
+                        {
+                            <a asp-action="Index" asp-route-selectedTags="@string.Join(",", selectedTags.Where(t => t != tag))" class="badge bg-primary text-light m-1">@tag</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
         <div class="row g-3">
             @foreach (var item in Model)
             {
@@ -40,8 +70,14 @@
                         </div>
                         <div class="card-footer d-flex justify-content-between">
                             <a asp-action="Details" asp-route-id="@item.Record.Id" class="btn btn-sm btn-outline-light">Details</a>
-                            <a asp-action="Edit" asp-route-id="@item.Record.Id" class="btn btn-sm btn-outline-warning">Edit</a>
-                            <a asp-action="Delete" asp-route-id="@item.Record.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                        @if(User.Identity.IsAuthenticated){
+                                @if (User.IsInRole("Admin") || User.FindFirst("Id")?.Value == item.UserId.ToString())
+                                {
+                                    <a asp-action="Edit" asp-route-id="@item.Record.Id" class="btn btn-sm btn-outline-warning">Edit</a>
+                                    <a asp-action="Delete" asp-route-id="@item.Record.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                                }
+                            
+                        }
                         </div>
                     </div>
 

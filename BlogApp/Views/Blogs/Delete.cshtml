@@ -58,11 +58,22 @@
             </div>
         </div>
         <div class="row mb-4">
+            <div class="col-2 fw-bold">
+                @Html.DisplayNameFor(model => model.Tags)
+            </div>
+            <div class="col-10">
+                @foreach (var tag in Model.Tags)
+                {
+                    <span class="badge bg-secondary">@tag</span>
+                }
+            </div>
+        </div>
+        <div class="row mb-4">
             <div class="col-3 text-warning fw-bold">
-                @Html.DisplayNameFor(model => model.User.UserName)
+                @Html.DisplayNameFor(model => model.UserName)
             </div>
             <div class="col-9">
-                @Html.DisplayFor(model => model.User.UserName)
+                @Html.DisplayFor(model => model.UserName)
             </div>
         </div>
         @* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. *@
@@ -78,7 +89,7 @@
         *@
 
         <hr class="border-light" />
-        <form asp-action="Delete" class="d-flex justify-content-center align-items-center">
+            <form asp-action="Delete" class="d-flex justify-content-center align-items-center mb-lg-5">
             @Html.AntiForgeryToken()
             <input type="hidden" asp-for="Record.Id" />
             <button type="submit" class="btn btn-danger rounded-pill px-4 me-3">Yes, Delete</button>

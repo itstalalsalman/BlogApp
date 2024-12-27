@@ -57,6 +57,17 @@
         </div>
         <div class="row mb-4">
             <div class="col-2 fw-bold">
+                @Html.DisplayNameFor(model => model.Tags)
+            </div>
+            <div class="col-10">
+                @foreach (var tag in Model.Tags)
+                {
+                    <span class="badge bg-secondary">@tag</span>
+                }
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-2 fw-bold">
                 @Html.DisplayNameFor(model => model.UserName)
             </div>
             <div class="col-10">
@@ -77,9 +88,16 @@
         *@
 
         <hr class="border-light" />
-        <div class="d-flex justify-content-start gap-3">
-            <a asp-action="Edit" asp-route-id="@Model.Record.Id" class="btn btn-outline-primary rounded-pill px-4">Edit</a>
-            <a asp-action="Delete" asp-route-id="@Model.Record.Id" class="btn btn-outline-danger rounded-pill px-4">Delete</a>
+        <div class="d-flex justify-content-start gap-3 mb-lg-5">
+            @if (User.Identity.IsAuthenticated)
+            {
+                @if (User.IsInRole("Admin") || User.FindFirst("Id")?.Value == Model.UserId.ToString())
+                {
+                    <a asp-action="Edit" asp-route-id="@Model.Record.Id" class="btn btn-outline-primary rounded-pill px-4">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@Model.Record.Id" class="btn btn-outline-danger rounded-pill px-4">Delete</a>
+                }
+            }
+            
             <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">Back to List</a>
         </div>
     </div>

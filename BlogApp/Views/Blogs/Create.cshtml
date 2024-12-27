@@ -47,16 +47,34 @@
             </div>
         </div>
         <div class="row mb-4">
-            <label asp-for="User" class="col-3 col-form-label text-white fw-bold"></label>
+            <label asp-for="TagNames" class="col-3 col-form-label text-white fw-bold"></label>
             <div class="col-9">
-                <select asp-for="Record.UserId" class="form-select bg-secondary text-light border-0 rounded-pill"
-                        asp-items="ViewBag.UserId">
-                    <option value="">-- Select --</option>
-                </select>
-                <span asp-validation-for="Record.UserId" class="text-danger"></span>
+                <input asp-for="TagNames" class="form-control bg-secondary text-light border-0 rounded-pill" />
+                <span asp-validation-for="TagNames" class="text-danger"></span>
             </div>
         </div>
 
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="row mb-4">
+                    <label asp-for="User" class="col-3 col-form-label text-white fw-bold"></label>
+                    <div class="col-9">
+                        <select asp-for="Record.UserId" class="form-select bg-secondary text-light border-0 rounded-pill"
+                                asp-items="ViewBag.UserId">
+                            <option value="">-- Select --</option>
+                        </select>
+                        <span asp-validation-for="Record.UserId" class="text-danger"></span>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <input type="hidden" asp-for="Record.UserId" value="@User.FindFirst("Id")?.Value" />
+            }
+        }
         <hr class="border-light" />
         <div class="row mt-4">
             <div class="offset-3 col-9 d-flex justify-content-between">
@@ -71,3 +89,4 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+
