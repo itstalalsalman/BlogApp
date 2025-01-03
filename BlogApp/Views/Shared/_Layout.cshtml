@@ -53,6 +53,12 @@
                         <li class="nav-item">
                             <a class="nav-link text-light bounceAnimationAndOpacity" asp-area="" asp-controller="Blogs" asp-action="Index">Blogs</a>
                         </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-light bounceAnimationAndOpacity" asp-area="" asp-controller="Favorites" asp-action="Get">Favorites</a>
+                            </li>
+                        }
                     </ul>
 
                     <!-- User: -->

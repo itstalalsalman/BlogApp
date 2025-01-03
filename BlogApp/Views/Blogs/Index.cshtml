@@ -55,7 +55,11 @@
             @foreach (var item in Model)
             {
                 <div class="col-md-4">
-                    <div class="card bg-dark text-light shadow-lg h-100">
+                    <div class="card bg-dark text-light shadow-lg h-100 position-relative">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a asp-action="Add" asp-controller="Favorites" asp-route-blogId="@item.Record.Id" class="w-25 text-md-center position-absolute top-0 left-0 mx-1 bg-white text-black rounded-2 text-decoration-none">Like</a>
+                        }
                         <img src="https://wallpapers.com/images/hd/dark-landscape-1683-x-840-wallpaper-m66ybu9vbcwob2e8.jpg" class="card-img-top" alt="Blog Image" style="height: 200px; object-fit: cover;" />
                         <div class="card-body">
                             <h5 class="card-title">@item.Title</h5>
